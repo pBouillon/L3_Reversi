@@ -24,17 +24,27 @@ package reversi;
  * SOFTWARE.
  */
 
+import java.util.Observable;
+
 /**
  * class Reversi
  *
  * @author pBouillon
  * @author lhome1u
  */
-public class Reversi {
+public class Reversi extends Observable{
+
+    public static final int SIZE_BOARD = 8;
     private GameColor[][] board ;
 
     public Reversi () {
 
+    }
+
+    public void update(){
+        this.setChanged();
+        this.notifyObservers();
+        this.clearChanged();
     }
 
     public GameColor[][] getBoard() {
