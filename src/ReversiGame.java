@@ -13,7 +13,7 @@ public class ReversiGame extends JFrame{
 
         //initialisation
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(1153, 750));
+        setSize(new Dimension(1153, 750));
 
         //view and menu
         add(new GameView(reversi) ,BorderLayout.CENTER) ;
@@ -21,7 +21,7 @@ public class ReversiGame extends JFrame{
         jmb.add(new GameMenu()) ;
         add(jmb ,BorderLayout.NORTH ) ;
 
-        pack() ;
+        //pack() ;
         setVisible(true);
     }
 

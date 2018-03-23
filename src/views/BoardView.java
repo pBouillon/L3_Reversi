@@ -22,7 +22,7 @@ public class BoardView extends JPanel implements Observer {
         super() ;
         reversi = _reversi ;
 
-        setMaximumSize(new Dimension((1153 / 3) * 2, 50 * Reversi.SIZE_BOARD)) ;
+        setLayout (new GridLayout (Reversi.SIZE_BOARD, Reversi.SIZE_BOARD)) ;
         setOpaque(false) ;
 
         // grid initialisation
@@ -35,7 +35,6 @@ public class BoardView extends JPanel implements Observer {
 
 
     private void generateTiles(int tilesNb) {
-        setLayout (new GridLayout (tilesNb, tilesNb)) ;
         GameColor[][] board = reversi.getBoard() ;
         Image img ;
         try {
