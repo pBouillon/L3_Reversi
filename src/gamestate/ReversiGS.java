@@ -255,4 +255,45 @@ public class ReversiGS extends GameState {
 
         return true ;
     }
+
+    public int isWon() {
+        int currentScore  = 0 ;
+        int opponentScore = 0 ;
+
+        for (GameColor[] row : getBoard()) {
+            for (GameColor tile : row) {
+                if (tile == GameColor.Empty) continue ;
+
+                if (tile == getCurrentPlayer().getColor()) ++currentScore  ;
+                else ++opponentScore ;
+            }
+        }
+
+        // win = 1
+        // equality = 0
+        // loose = -1
+        if (currentScore == opponentScore) return 0 ;
+
+        return (currentScore > opponentScore) ? 1
+                : -1 ;
+    }
+
+    public boolean isFinished() {
+        if(isFinal()){
+            for (GameColor[] row : getBoard()) {
+                for (GameColor tile : row) {
+                    if (tile == GameColor.Empty) return false ;
+                }
+            }
+            return true ;
+        }
+        return false ;
+    }
+
+    public boolean isStocked() {
+        if(isFinal() && !isFinished()){
+            return true ;
+        }
+        return false ;
+    }
 }

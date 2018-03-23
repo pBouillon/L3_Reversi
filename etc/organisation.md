@@ -51,3 +51,7 @@
 * lhome1u and pBouillon
     * Rewritting sources
     * GUI patchs (still in progress..)
+
+## Day 4 - off
+* lhome1u
+    * reworked model
