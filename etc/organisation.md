@@ -46,3 +46,8 @@
 ## Day 3 - off
 * pBouillon
     * Started sources reorganization
+
+## Day4
+* lhome1u and pBouillon
+    * Rewritting sources
+    * GUI patchs (still in progress..)

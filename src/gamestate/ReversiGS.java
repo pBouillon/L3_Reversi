@@ -1,5 +1,6 @@
 package gamestate;
 
+import player.HumanPlayer;
 import player.Player;
 import reversi.GameColor;
 
@@ -54,11 +55,11 @@ public class ReversiGS extends GameState {
         return successors ;
     }
 
-    private void genSuccessors() {
-        ReversiGS tmp ;
+    public void genSuccessors() {
+        GameColor[][] clb ;
         successors = new ArrayList<>() ;
 
-        GameColor color = getCurrentPlayer().getColor() ;
+        GameColor color = getOpponentColor() ;
 
         // for each cells
         for (int x = 0; x < getBoard().length ; ++x) {
@@ -73,9 +74,9 @@ public class ReversiGS extends GameState {
 
                         // else, check move and add it if it is OK
                         if (isMoveOk (x, y, stepX, stepY, color)) {
-                            tmp = clone() ;
-                            tmp.updateCell(x, y, getOpponentColor()) ;
-                            successors.add (tmp) ;
+                            clb = getClonedBoard() ;
+                            clb[x][y] = getCurrentPlayer().getColor() ;
+                            successors.add (new ReversiGS(getCurrentPlayer(), clb)) ;
                         }
                     }
                 }
@@ -92,18 +93,26 @@ public class ReversiGS extends GameState {
     }
 
     private GameColor getOpponentColor() {
-        return null ;
+        return (getCurrentPlayer().getColor() == GameColor.Black)
+                ? GameColor.White
+                : GameColor.Black ;
     }
 
     public GameColor[][] getBoard() {
         return board;
     }
 
-    private GameColor[][] getClonedBoard() {
-        return board.clone() ;
+    public GameColor[][] getClonedBoard() {
+        GameColor[][] clone = new GameColor[board.length][board.length] ;
+        for (int x = 0; x < clone.length; ++x) {
+            for (int y = 0; y < clone.length; ++y) {
+                clone[x][y] = board[x][y] ;
+            }
+        }
+        return clone ;
     }
 
-    private void swapFrom (int x, int y, GameColor currentColor, GameColor opponentColor) {
+    public void swapFrom (int x, int y) {
         for (int stepX = AXES_DEC; stepX <= AXES_INC; ++stepX) {
             for (int stepY = AXES_DEC; stepY <= AXES_INC; ++stepY) {
                 swap (
@@ -111,21 +120,20 @@ public class ReversiGS extends GameState {
                         y,
                         stepX,
                         stepY,
-                        currentColor,
-                        toSwap (x, y, stepX, stepY, opponentColor)
+                        getCurrentPlayer().getColor(),
+                        toSwap (x, y, stepX, stepY, getOpponentColor())
                 ) ;
             }
         }
     }
 
     private void swap(int x, int y, int stepX, int stepY, GameColor color, int toSwap) {
-        GameColor[][] grid = getBoard() ;
 
         // starting from the next cell
         x += stepX ; y += stepY ;
 
         for (int i = 0; i < toSwap; ++i) {
-            grid[x][y] = color ;
+            board[x][y] = color ;
             x += stepX ; y += stepY ;
         }
     }
@@ -194,6 +202,32 @@ public class ReversiGS extends GameState {
             // looking at next cell
             x += stepX ; y += stepY ;
         }
+        return false ;
+    }
+
+    public boolean moveAllowed(int x, int y){
+        // check bounds
+        if (x < 0 || y < 0
+                || x >= board.length
+                || y >= board[0].length) {
+            return false ;
+        }
+
+        // no need to continue if cell is invalid
+        if (board[x][y] != GameColor.Empty) return false ;
+
+        ReversiGS temp = new ReversiGS ( getCurrentPlayer(), getClonedBoard()) ;
+        temp.updateCell (
+                x,
+                y,
+                getCurrentPlayer().getColor()
+        ) ;
+
+        // if the move matches a predicted next game state, it is valid
+        for (GameState gs : successors) {
+            if (temp.equals(gs)) return true ;
+        }
+
         return false ;
     }
 

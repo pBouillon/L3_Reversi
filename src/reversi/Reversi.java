@@ -50,24 +50,24 @@ public class Reversi extends Observable{
         players = new Player[2] ;
         players[0] = new HumanPlayer(nameP1, GameColor.White, this) ;
         players[1] = new HumanPlayer(nameP2, GameColor.Black, this) ;
-        creatFirstGameState() ;
+        createFirstGameState() ;
     }
 
     public Reversi (String nameP1) {
         players = new Player[2] ;
         players[0] = new AIPlayer("AI", GameColor.White, this) ;
         players[1] = new HumanPlayer(nameP1, GameColor.Black, this) ;
-        creatFirstGameState() ;
+        createFirstGameState() ;
     }
 
     public Reversi () {
         players = new Player[2] ;
         players[0] = new AIPlayer("AI 1", GameColor.White, this) ;
         players[1] = new AIPlayer("AI 2", GameColor.Black, this) ;
-        creatFirstGameState() ;
+        createFirstGameState() ;
     }
 
-    private void creatFirstGameState(){
+    private void createFirstGameState(){
 
         board = new GameColor[SIZE_BOARD][SIZE_BOARD] ;
 
@@ -86,12 +86,34 @@ public class Reversi extends Observable{
         currentPlayerIndex = 1 ;
 
         // initialize first GameState
-        currentGameState = new ReversiGS(getCurrentPlayer(), board) ;
+        currentGameState = new ReversiGS(getCurrentPlayer(), getClonedBoard()) ;
+        currentGameState.genSuccessors() ;
+
+        System.out.println(currentGameState.getSuccessors().size());
+
     }
 
     public void play(int x, int y) {
 
+        // changing board
+        board[x][y] = players[currentPlayerIndex].getColor() ;
+
+        // swap pieces
+        currentGameState.swapFrom (x, y) ;
+
+        board = currentGameState.getClonedBoard() ;
+
+        //change player
         nextPlayer() ;
+
+        // new state
+        currentGameState = new ReversiGS (
+                                getCurrentPlayer(),
+                                getClonedBoard()
+                            ) ;
+        currentGameState.genSuccessors() ;
+
+        update() ;
     }
 
     private void nextPlayer() {
@@ -110,4 +132,19 @@ public class Reversi extends Observable{
     public GameColor[][] getBoard() {
         return board ;
     }
+
+    public boolean isMoveCorrect(int x, int y) {
+        return currentGameState.moveAllowed(x, y) ;
+    }
+
+    private GameColor[][] getClonedBoard() {
+        GameColor[][] clone = new GameColor[board.length][board.length] ;
+        for (int x = 0; x < clone.length; ++x) {
+            for (int y = 0; y < clone.length; ++y) {
+                clone[x][y] = board[x][y] ;
+            }
+        }
+        return clone ;
+    }
+
 }

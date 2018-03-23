@@ -6,8 +6,6 @@ import reversi.Reversi;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -46,8 +44,11 @@ public class BoardView extends JPanel implements Observer {
 
                     int X = x ;
                     int Y = y ;
-                    tiles[x][y].addActionListener(e ->
-                            reversi.getCurrentPlayer().play(X, Y)
+                    tiles[x][y].addActionListener(e -> {
+                            if(reversi.isMoveCorrect(X,Y)) {
+                                reversi.getCurrentPlayer().play(X, Y);
+                            }
+                        }
                     ) ;
                 }
             }

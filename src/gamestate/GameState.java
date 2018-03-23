@@ -41,4 +41,5 @@ public abstract class GameState {
     public Player getCurrentPlayer() {
         return currentPlayer ;
     }
+
 }
