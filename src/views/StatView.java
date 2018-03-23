@@ -10,14 +10,15 @@ import java.util.Observer;
 public class StatView extends JPanel implements Observer {
 
     protected Reversi reversi ;
-    protected JPanel player ;
-    protected JTextField gameStat ;
+    private JPanel player ;
+    private JTextField gameStat ;
 
-    public StatView(Reversi _reversi){
+    StatView(Reversi _reversi){
         super() ;
 
         reversi = _reversi ;
-        setPreferredSize(new Dimension(400, 550));
+        setPreferredSize(new Dimension(1153 / 3, 50 * Reversi.SIZE_BOARD)) ;
+        setOpaque(false) ;
 
         //initialisation
         setPlayer() ;

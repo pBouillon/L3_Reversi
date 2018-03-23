@@ -24,6 +24,10 @@ package reversi;
  * SOFTWARE.
  */
 
+import player.AIPlayer;
+import player.HumanPlayer;
+import player.Player;
+
 import java.util.Observable;
 
 /**
@@ -37,14 +41,41 @@ public class Reversi extends Observable{
     public static final int SIZE_BOARD = 8;
     private GameColor[][] board ;
 
-    public Reversi () {
+    private Player[] players ;
+    private int currentPlayerIndex;
 
+    public Reversi (String nameP1, String nameP2) {
+        players = new Player[2] ;
+        players[0] = new HumanPlayer(nameP1, GameColor.White, this) ;
+        players[1] = new HumanPlayer(nameP2, GameColor.Black, this) ;
+    }
+
+    public Reversi (String nameP1) {
+        players = new Player[2] ;
+        players[0] = new HumanPlayer(nameP1, GameColor.White, this) ;
+        players[1] = new AIPlayer("AI", GameColor.Black, this) ;
+    }
+
+    public Reversi () {
+        players = new Player[2] ;
+        players[0] = new AIPlayer("AI 1", GameColor.White, this) ;
+        players[1] = new AIPlayer("AI 2", GameColor.Black, this) ;
+    }
+
+    public void play(int x, int y) {
+        players[currentPlayerIndex].play(x, y) ;
+        nextPlayer() ;
+    }
+
+    private void nextPlayer() {
+        ++currentPlayerIndex ;
+        if (currentPlayerIndex == players.length) currentPlayerIndex = 0 ;
     }
 
     public void update(){
-        this.setChanged();
-        this.notifyObservers();
-        this.clearChanged();
+        setChanged();
+        notifyObservers();
+        clearChanged();
     }
 
     public GameColor[][] getBoard() {

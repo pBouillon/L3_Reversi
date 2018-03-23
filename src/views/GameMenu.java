@@ -1,8 +1,7 @@
 package views;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
 public class GameMenu extends JMenu {
 
@@ -31,56 +30,50 @@ public class GameMenu extends JMenu {
 
     public GameMenu(){
         super("Game") ;
-        items() ;
+        setItems() ;
     }
 
-    private void items() {
+    private void setItems() {
+        JMenuItem load    = genItem ("Load", "Load game") ;
+        JMenuItem quit    = genItem ("Quit", "Quit game") ;
+        JMenuItem restart = genItem ("Restart", "Restart a new game") ;
+        JMenuItem rules   = genItem ("Rules", "Show game's rules") ;
+        JMenuItem save    = genItem ("Save", "Save this game") ;
 
-        // load game
-        JMenuItem load = new JMenuItem("Load") ;
-        load.setToolTipText("Load game");
-        this.add(load) ;
-        load.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
+        load.addActionListener (e-> {
+            // TODO
+        }) ;
+        quit.addActionListener (e->
+            System.exit(0)
+        ) ;
+        restart.addActionListener (e-> {
+            // TODO
+        }) ;
+        rules.addActionListener (e->
+            JOptionPane.showMessageDialog (
+                null,
+                rulesText,
+                "Rules",
+                JOptionPane.INFORMATION_MESSAGE
+        )) ;
+        save.addActionListener (e-> {
+            // TODO
+        }) ;
 
-            }});
+        add(restart) ;
+        add(rules)   ;
+        addSeparator() ;
+        add(save) ;
+        add(load) ;
+        addSeparator() ;
+        add(quit) ;
+    }
 
-        // quit
-        JMenuItem quit = new JMenuItem("Quit") ;
-        quit.setToolTipText("Quit game");
-        this.add(quit) ;
-        quit.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }});
+    private JMenuItem genItem (String title, String infoText) {
+        JMenuItem item = new JMenuItem(title) ;
+        item.setToolTipText (infoText) ;
+        item.setPreferredSize (new Dimension (75, 25)) ;
 
-        // restart game
-        JMenuItem restart = new JMenuItem("Restart") ;
-        restart.setToolTipText("Restart a new game");
-        this.add(restart) ;
-        restart.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-
-            }});
-
-        // rules
-        JMenuItem rules = new JMenuItem("Rules") ;
-        rules.setToolTipText("show game's rules");
-        this.add(rules) ;
-        rules.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,rulesText, "Rules", JOptionPane.INFORMATION_MESSAGE);
-            }});
-
-        // save game
-        JMenuItem save = new JMenuItem("Save") ;
-        save.setToolTipText("Save this game");
-        this.add(save) ;
-        save.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-
-            }});
-
-
+        return item ;
     }
 }

@@ -7,13 +7,13 @@ import java.awt.*;
 
 public class ReversiGame extends JFrame{
 
-    public ReversiGame(){
+    private ReversiGame(){
         super("Reversi");
-        Reversi reversi = new Reversi() ;
+        Reversi reversi = new Reversi("Mathilde", "Pierre") ;
 
         //initialisation
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(900,650));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new Dimension(1153, 750));
 
         //view and menu
         add(new GameView(reversi) ,BorderLayout.CENTER) ;

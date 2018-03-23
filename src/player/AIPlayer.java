@@ -137,7 +137,7 @@ public class AIPlayer extends Player {
     }
 
     @Override
-    public void play () {
-
+    public void play(int x, int y) {
+        System.out.println(getName() + " played on " + x + " " + y);
     }
 }

@@ -44,7 +44,7 @@ public abstract class Player {
         name  = _name  ;
     }
 
-    public abstract void play () ;
+    public abstract void play(int x, int y) ;
 
     public String getName () {
         return name ;
