@@ -40,7 +40,6 @@ import java.util.Observable;
 public class Reversi extends Observable{
 
     public static final int SIZE_BOARD = 8;
-    private GameColor[][] board ;
 
     private Player[] players ;
     private int currentPlayerIndex ;
@@ -69,7 +68,7 @@ public class Reversi extends Observable{
 
     private void createFirstGameState(){
 
-        board = new GameColor[SIZE_BOARD][SIZE_BOARD] ;
+        GameColor[][] board = new GameColor[SIZE_BOARD][SIZE_BOARD] ;
 
         for (int x = 0; x < SIZE_BOARD * SIZE_BOARD ; ++x) {
             board[x / SIZE_BOARD][x % SIZE_BOARD] = GameColor.Empty ;
@@ -86,7 +85,7 @@ public class Reversi extends Observable{
         currentPlayerIndex = 1 ;
 
         // initialize first GameState
-        currentGameState = new ReversiGS(getCurrentPlayer(), getClonedBoard()) ;
+        currentGameState = new ReversiGS(getCurrentPlayer(), board) ;
         currentGameState.genSuccessors() ;
 
         System.out.println(currentGameState.getSuccessors().size());
@@ -96,12 +95,10 @@ public class Reversi extends Observable{
     public void play(int x, int y) {
 
         // changing board
-        board[x][y] = players[currentPlayerIndex].getColor() ;
+        currentGameState.updateCell(x, y, players[currentPlayerIndex].getColor());
 
         // swap pieces
         currentGameState.swapFrom (x, y) ;
-
-        board = currentGameState.getClonedBoard() ;
 
         //change player
         nextPlayer() ;
@@ -109,8 +106,10 @@ public class Reversi extends Observable{
         // new state
         currentGameState = new ReversiGS (
                                 getCurrentPlayer(),
-                                getClonedBoard()
+                               currentGameState.getClonedBoard()
                             ) ;
+
+
         currentGameState.genSuccessors() ;
 
         update() ;
@@ -130,21 +129,11 @@ public class Reversi extends Observable{
     }
 
     public GameColor[][] getBoard() {
-        return board ;
+        return currentGameState.getBoard() ;
     }
 
     public boolean isMoveCorrect(int x, int y) {
         return currentGameState.moveAllowed(x, y) ;
-    }
-
-    private GameColor[][] getClonedBoard() {
-        GameColor[][] clone = new GameColor[board.length][board.length] ;
-        for (int x = 0; x < clone.length; ++x) {
-            for (int y = 0; y < clone.length; ++y) {
-                clone[x][y] = board[x][y] ;
-            }
-        }
-        return clone ;
     }
 
 }

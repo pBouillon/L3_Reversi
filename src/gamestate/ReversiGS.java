@@ -84,7 +84,7 @@ public class ReversiGS extends GameState {
         }
     }
 
-    private void updateCell(int x, int y, GameColor color) {
+    public void updateCell(int x, int y, GameColor color) {
         board[x][y] = color ;
     }
 
