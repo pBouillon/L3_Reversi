@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GameView extends DrawedPanel implements Observer {
+public class GameView extends JPanel implements Observer {
 
     protected BoardView grid ;
     protected StatView stat ;
@@ -33,15 +33,13 @@ public class GameView extends DrawedPanel implements Observer {
     public void update(Observable o, Object arg) {
         // TODO
     }
-}
 
-class DrawedPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         ImageIcon image_background
                 = new ImageIcon (
-                        getClass()
-                                .getResource("resources/img/background.jpg")
+                getClass()
+                        .getResource("resources/img/background.jpg")
         ) ;
 
         g.drawImage (

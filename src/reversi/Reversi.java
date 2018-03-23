@@ -136,4 +136,5 @@ public class Reversi extends Observable{
         return currentGameState.moveAllowed(x, y) ;
     }
 
+
 }

@@ -89,7 +89,7 @@ public class ReversiGS extends GameState {
     }
 
     public boolean isFinal() {
-        return false ;
+        return getSuccessors().isEmpty() ;
     }
 
     private GameColor getOpponentColor() {
