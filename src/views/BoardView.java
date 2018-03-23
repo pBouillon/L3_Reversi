@@ -1,5 +1,6 @@
 package views;
 
+import reversi.GameColor;
 import reversi.Reversi;
 
 import javax.imageio.ImageIO;
@@ -35,36 +36,22 @@ public class BoardView extends JPanel implements Observer {
 
     private void generateTiles(int tilesNb) {
         setLayout (new GridLayout (tilesNb, tilesNb)) ;
-
+        GameColor[][] board = reversi.getBoard() ;
         Image img ;
         try {
-            img = ImageIO.read(getClass().getResource("resources/img/empty_tile.png"));
             for (int x = 0; x < tilesNb; ++x) {
                 for (int y = 0; y < tilesNb; ++y) {
                     tiles[x][y] = new JButton() ;
+                    img = ImageIO.read(getClass().getResource("resources/img/"+board[x][y]+"_tile.png"));
                     tiles[x][y].setIcon (new ImageIcon(img));
 
                     int X = x ;
                     int Y = y ;
                     tiles[x][y].addActionListener(e ->
-                            reversi.play(X, Y)
+                            reversi.getCurrentPlayer().play(X, Y)
                     ) ;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace() ;
-        }
-
-        try {
-            Image blackTile, whiteTile ;
-            blackTile = ImageIO.read(getClass().getResource("resources/img/black_tile.png")) ;
-            whiteTile = ImageIO.read(getClass().getResource("resources/img/white_tile.png")) ;
-
-            int center = tilesNb / 2 ;
-            tiles[center-1][ center ].setIcon (new ImageIcon(blackTile)) ;
-            tiles[ center ][center-1].setIcon (new ImageIcon(blackTile)) ;
-            tiles[center-1][center-1].setIcon (new ImageIcon(whiteTile)) ;
-            tiles[ center ][ center ].setIcon (new ImageIcon(whiteTile)) ;
         } catch (IOException e) {
             e.printStackTrace() ;
         }
@@ -73,8 +60,26 @@ public class BoardView extends JPanel implements Observer {
 
     }
 
+     private void updateTiles() {
+
+        GameColor[][] board = reversi.getBoard() ;
+
+        Image img ;
+        try {
+            for (int x = 0; x < board.length; ++x) {
+                for (int y = 0; y < board[0].length; ++y) {
+                    img = ImageIO.read(getClass().getResource("resources/img/"+board[x][y]+"_tile.png"));
+                    tiles[x][y].setIcon (new ImageIcon(img));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace() ;
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
+        updateTiles();
 
     }
 }

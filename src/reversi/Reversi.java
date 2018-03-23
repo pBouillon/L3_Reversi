@@ -24,6 +24,7 @@ package reversi;
  * SOFTWARE.
  */
 
+import gamestate.ReversiGS;
 import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
@@ -42,28 +43,54 @@ public class Reversi extends Observable{
     private GameColor[][] board ;
 
     private Player[] players ;
-    private int currentPlayerIndex;
+    private int currentPlayerIndex ;
+    private ReversiGS currentGameState ;
 
     public Reversi (String nameP1, String nameP2) {
         players = new Player[2] ;
         players[0] = new HumanPlayer(nameP1, GameColor.White, this) ;
         players[1] = new HumanPlayer(nameP2, GameColor.Black, this) ;
+        creatFirstGameState() ;
     }
 
     public Reversi (String nameP1) {
         players = new Player[2] ;
-        players[0] = new HumanPlayer(nameP1, GameColor.White, this) ;
-        players[1] = new AIPlayer("AI", GameColor.Black, this) ;
+        players[0] = new AIPlayer("AI", GameColor.White, this) ;
+        players[1] = new HumanPlayer(nameP1, GameColor.Black, this) ;
+        creatFirstGameState() ;
     }
 
     public Reversi () {
         players = new Player[2] ;
         players[0] = new AIPlayer("AI 1", GameColor.White, this) ;
         players[1] = new AIPlayer("AI 2", GameColor.Black, this) ;
+        creatFirstGameState() ;
+    }
+
+    private void creatFirstGameState(){
+
+        board = new GameColor[SIZE_BOARD][SIZE_BOARD] ;
+
+        for (int x = 0; x < SIZE_BOARD * SIZE_BOARD ; ++x) {
+            board[x / SIZE_BOARD][x % SIZE_BOARD] = GameColor.Empty ;
+        }
+
+        // initialize the grid with the central pattern
+        int center = SIZE_BOARD / 2 ;
+        board[center-1][ center ] = GameColor.Black ;
+        board[ center ][center-1] = GameColor.Black ;
+        board[center-1][center-1] = GameColor.White ;
+        board[ center ][ center ] = GameColor.White ;
+
+        // initialize first player
+        currentPlayerIndex = 1 ;
+
+        // initialize first GameState
+        currentGameState = new ReversiGS(getCurrentPlayer(), board) ;
     }
 
     public void play(int x, int y) {
-        players[currentPlayerIndex].play(x, y) ;
+
         nextPlayer() ;
     }
 
@@ -71,6 +98,8 @@ public class Reversi extends Observable{
         ++currentPlayerIndex ;
         if (currentPlayerIndex == players.length) currentPlayerIndex = 0 ;
     }
+
+    public Player getCurrentPlayer(){ return players[currentPlayerIndex] ;}
 
     public void update(){
         setChanged();

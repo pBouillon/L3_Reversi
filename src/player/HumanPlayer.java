@@ -40,6 +40,6 @@ public class HumanPlayer extends Player {
 
     @Override
     public void play(int x, int y) {
-        System.out.println(getName() + " played on " + x + " " + y);
+        getGame().play(x, y);
     }
 }
