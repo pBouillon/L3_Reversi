@@ -30,8 +30,7 @@ public class StatView extends JPanel implements Observer {
 
     private void setPlayer() {
         player = new JPanel();
-        player.add(new JTextField("Nick : " )) ;
-        //player.add(new ImageIcon("")) ;
+        player.add(new JLabel("Player: " + reversi.getCurrentPlayer().getName())) ;
         add(player, BorderLayout.EAST) ;
     }
 

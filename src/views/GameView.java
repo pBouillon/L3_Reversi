@@ -39,9 +39,9 @@ public class GameView extends JPanel implements Observer {
             JOptionPane.showMessageDialog (
                     null,
                     reversi.getCurrentPlayer().getName() +", you are stocked ! \n\n\t "+
-                            reversi.getOpponantPlayer().getName()+", it's your turn ! ",
+                            reversi.getOpponentPlayer().getName()+", it's your turn ! ",
                     "OUUUUPS !",
-                    JOptionPane.ERROR_MESSAGE
+                    JOptionPane.PLAIN_MESSAGE
             ) ;
             reversi.stocked() ;
 
@@ -50,37 +50,37 @@ public class GameView extends JPanel implements Observer {
                         null,
                         "All players are stocked ! \n It's the end of this game !",
                         "OOOOOH NOOOO !",
-                        JOptionPane.ERROR_MESSAGE
+                        JOptionPane.PLAIN_MESSAGE
                 ) ;
             }
-        }else if(reversi.isFinished()) {
+        } else if(reversi.isFinished()) {
             switch (reversi.isWin()) {
 
                 case WIN :
                     JOptionPane.showMessageDialog (
                             null,
                             reversi.getCurrentPlayer().getName() +", you win this game ! \n\n\t "+
-                                    reversi.getOpponantPlayer().getName()+" won ! ",
+                                    reversi.getOpponentPlayer().getName()+" loose ! ",
                             "CONGRATULATIONS !",
-                            JOptionPane.YES_OPTION
+                            JOptionPane.PLAIN_MESSAGE
                     ) ;
                     break;
                 case EQUALS :
                     JOptionPane.showMessageDialog (
                             null,
                             "There is a perfect equality, thanks for playing "+reversi.getCurrentPlayer().getName()+
-                            " and " +reversi.getOpponantPlayer().getName()+" !",
+                            " and " +reversi.getOpponentPlayer().getName()+" !",
                             "EQUALITY !",
-                            JOptionPane.YES_OPTION
+                            JOptionPane.PLAIN_MESSAGE
                     ) ;
                     break;
                 case LOOSE :
                     JOptionPane.showMessageDialog (
                             null,
                             reversi.getCurrentPlayer().getName() +", you loose this game ! \n\n\t "+
-                                    reversi.getOpponantPlayer().getName()+" won ! ",
+                                    reversi.getOpponentPlayer().getName()+" won ! ",
                             "SORRY !",
-                            JOptionPane.NO_OPTION
+                            JOptionPane.PLAIN_MESSAGE
                     ) ;
                     break;
             }

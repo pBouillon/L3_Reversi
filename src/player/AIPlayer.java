@@ -125,12 +125,12 @@ public class AIPlayer extends Player {
     private ReversiGS minimax(int c, ReversiGS g) {
         float score, scoreMax ;
 
-        scoreMax = WON ;
+        scoreMax = LOOSE ;
         ReversiGS nextMove = null ;
 
         for (ReversiGS gs: g.getSuccessors()) {
-            score = eval_c(c, g) ;
-//            score = eval_alpha_beta(c, g, LOOSE, WON) ;
+//            score = eval_c(c, g) ;
+            score = eval_alpha_beta(c, g, LOOSE, WON) ;
             if (score >= scoreMax) {
                 nextMove = gs ;
                 scoreMax = score ;
@@ -142,11 +142,11 @@ public class AIPlayer extends Player {
     @Override
     public void play(int x, int y) {
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(250 );
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        GameColor[][] board = minimax(3, getGame().getCurrentGameState()).getBoard() ;
+        GameColor[][] board = minimax(6, getGame().getCurrentGameState()).getBoard() ;
 
         int _x = -1 ;
         int _y = -1 ;

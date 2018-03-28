@@ -143,7 +143,7 @@ public class Reversi extends Observable{
 
     public int isWin() { return currentGameState.isWon() ;}
 
-    public Player getOpponantPlayer() {
+    public Player getOpponentPlayer() {
         return (currentPlayerIndex == 0)
             ? players[1]
             : players[0] ;
