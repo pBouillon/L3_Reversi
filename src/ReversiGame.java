@@ -9,7 +9,7 @@ public class ReversiGame extends JFrame{
 
     private ReversiGame(){
         super("Reversi");
-        Reversi reversi = new Reversi("Mathilde", "Pierre") ;
+        Reversi reversi = new Reversi("Test") ;
 
         //initialisation
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

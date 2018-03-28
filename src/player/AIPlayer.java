@@ -4,6 +4,8 @@ import gamestate.ReversiGS;
 import reversi.GameColor;
 import reversi.Reversi;
 
+import java.util.concurrent.TimeUnit;
+
 /*
  * MIT License
  *
@@ -128,6 +130,7 @@ public class AIPlayer extends Player {
 
         for (ReversiGS gs: g.getSuccessors()) {
             score = eval_c(c, g) ;
+//            score = eval_alpha_beta(c, g, LOOSE, WON) ;
             if (score >= scoreMax) {
                 nextMove = gs ;
                 scoreMax = score ;
@@ -138,6 +141,28 @@ public class AIPlayer extends Player {
 
     @Override
     public void play(int x, int y) {
-        System.out.println(getName() + " played on " + x + " " + y);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        GameColor[][] board = minimax(3, getGame().getCurrentGameState()).getBoard() ;
+
+        int _x = -1 ;
+        int _y = -1 ;
+        for (int i = 0; i < getGame().getBoard().length; ++i) {
+            for (int j = 0; j < getGame().getBoard().length; ++j) {
+                if (board[i][j] != getGame().getBoard()[i][j]) {
+                    _x = i ;
+                    _y = j ;
+                }
+            }
+        }
+        getGame().play(_x, _y) ;
+    }
+
+    @Override
+    public boolean isAi() {
+        return true ;
     }
 }

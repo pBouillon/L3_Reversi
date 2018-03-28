@@ -42,4 +42,9 @@ public class HumanPlayer extends Player {
     public void play(int x, int y) {
         getGame().play(x, y);
     }
+
+    @Override
+    public boolean isAi() {
+        return false;
+    }
 }

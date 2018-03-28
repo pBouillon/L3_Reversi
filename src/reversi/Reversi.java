@@ -67,6 +67,10 @@ public class Reversi extends Observable{
         createFirstGameState() ;
     }
 
+    public ReversiGS getCurrentGameState() {
+        return currentGameState;
+    }
+
     private void createFirstGameState(){
 
         GameColor[][] board = new GameColor[SIZE_BOARD][SIZE_BOARD] ;
@@ -88,13 +92,9 @@ public class Reversi extends Observable{
         // initialize first GameState
         currentGameState = new ReversiGS(getCurrentPlayer(), board) ;
         currentGameState.genSuccessors() ;
-
-        System.out.println(currentGameState.getSuccessors().size());
-
     }
 
     public void play(int x, int y) {
-
         //reboot stocked payer
         stocked = 0;
 
@@ -110,9 +110,8 @@ public class Reversi extends Observable{
         // new state
         currentGameState = new ReversiGS (
                                 getCurrentPlayer(),
-                               currentGameState.getClonedBoard()
+                                currentGameState.getClonedBoard()
                             ) ;
-
 
         currentGameState.genSuccessors() ;
 
@@ -140,11 +139,9 @@ public class Reversi extends Observable{
         return currentGameState.moveAllowed(x, y) ;
     }
 
-
     public boolean isFinished() { return currentGameState.isFinished() ;}
 
     public int isWin() { return currentGameState.isWon() ;}
-
 
     public Player getOpponantPlayer() {
         return (currentPlayerIndex == 0)
@@ -165,11 +162,14 @@ public class Reversi extends Observable{
                 currentGameState.getClonedBoard()
         ) ;
 
-
         currentGameState.genSuccessors() ;
 
         update() ;
     }
 
     public boolean isStockedGame() { return stocked == 2 ; }
+
+    public boolean currentPlayerIsAi() {
+        return getCurrentPlayer().isAi();
+    }
 }

@@ -64,4 +64,6 @@ public abstract class Player {
                 &&((Player) obj).getColor() == getColor()
                 && ((Player) obj).getName().equals(getName()) ;
     }
+
+    public abstract boolean isAi() ;
 }

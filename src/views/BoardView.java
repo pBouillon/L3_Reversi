@@ -57,7 +57,6 @@ public class BoardView extends JPanel implements Observer {
         }
 
         for (int x = 0; x < tilesNb * tilesNb; ++x) add (tiles[x / tilesNb][x % tilesNb]) ;
-
     }
 
      private void updateTiles() {
@@ -80,6 +79,8 @@ public class BoardView extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         updateTiles();
-
+        if (reversi.currentPlayerIsAi()) {
+            reversi.getCurrentPlayer().play(0, 0);
+        }
     }
 }
