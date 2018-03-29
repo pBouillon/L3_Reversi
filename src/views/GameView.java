@@ -35,20 +35,20 @@ public class GameView extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(reversi.isStocked()){
+        if(reversi.getStucked()){
             JOptionPane.showMessageDialog (
                     null,
-                    reversi.getCurrentPlayer().getName() +", you are stocked ! \n\n\t "+
+                    reversi.getCurrentPlayer().getName() +", you are stucked ! \n\n\t "+
                             reversi.getOpponentPlayer().getName()+", it's your turn ! ",
                     "OUUUUPS !",
                     JOptionPane.PLAIN_MESSAGE
             ) ;
-            reversi.stocked() ;
+            reversi.stucked() ;
 
-            if(reversi.isStockedGame()){
+            if(reversi.isStuckedGame()){
                 JOptionPane.showMessageDialog (
                         null,
-                        "All players are stocked ! \n It's the end of this game !",
+                        "All players are stucked ! \n It's the end of this game !",
                         "OOOOOH NOOOO !",
                         JOptionPane.PLAIN_MESSAGE
                 ) ;
@@ -85,6 +85,7 @@ public class GameView extends JPanel implements Observer {
                     break;
             }
         }
+
     }
 
     protected void paintComponent(Graphics g) {

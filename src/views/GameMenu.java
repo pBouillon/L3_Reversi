@@ -1,5 +1,7 @@
 package views;
 
+import reversi.Reversi;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,8 +30,11 @@ public class GameMenu extends JMenu {
             " \t    * None of the players can play\n" +
             "\t * The winner is the player who has the more pieces of his color \n";
 
-    public GameMenu(){
+    private Reversi reversi ;
+
+    public GameMenu(Reversi _reversi){
         super("Game") ;
+        reversi = _reversi ;
         setItems() ;
     }
 
@@ -47,7 +52,7 @@ public class GameMenu extends JMenu {
             System.exit(0)
         ) ;
         restart.addActionListener (e-> {
-            // TODO
+            reversi.restart() ;
         }) ;
         rules.addActionListener (e->
             JOptionPane.showMessageDialog (

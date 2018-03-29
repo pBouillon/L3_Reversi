@@ -79,8 +79,6 @@ public class BoardView extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         updateTiles();
-        if (reversi.currentPlayerIsAi()) {
-            reversi.getCurrentPlayer().play(0, 0);
-        }
+
     }
 }

@@ -44,7 +44,7 @@ public class Reversi extends Observable{
     private Player[] players ;
     private int currentPlayerIndex ;
     private ReversiGS currentGameState ;
-    private int stocked = 0;
+    private int stucked = 0;
 
     public Reversi (String nameP1, String nameP2) {
         players = new Player[2] ;
@@ -95,8 +95,8 @@ public class Reversi extends Observable{
     }
 
     public void play(int x, int y) {
-        //reboot stocked payer
-        stocked = 0;
+        //reboot stucked payer
+        stucked = 0;
 
         // changing board
         currentGameState.updateCell(x, y, players[currentPlayerIndex].getColor());
@@ -116,6 +116,10 @@ public class Reversi extends Observable{
         currentGameState.genSuccessors() ;
 
         update() ;
+
+        if (currentPlayerIsAi() && ! isFinished()) {
+            getCurrentPlayer().play(0, 0);
+        }
     }
 
     private void nextPlayer() {
@@ -149,10 +153,10 @@ public class Reversi extends Observable{
             : players[0] ;
     }
 
-    public boolean isStocked() { return currentGameState.isStocked() ;}
+    public boolean getStucked() { return currentGameState.isStocked() ;}
 
-    public void stocked() {
-        ++stocked ;
+    public void stucked() {
+        ++stucked;
         //change player
         nextPlayer() ;
 
@@ -167,9 +171,14 @@ public class Reversi extends Observable{
         update() ;
     }
 
-    public boolean isStockedGame() { return stocked == 2 ; }
+    public boolean isStuckedGame() { return stucked == 2 ; }
 
     public boolean currentPlayerIsAi() {
         return getCurrentPlayer().isAi();
+    }
+
+    public void restart() {
+        createFirstGameState() ;
+        update() ;
     }
 }

@@ -41,6 +41,7 @@ public class StatView extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        player.removeAll();
+        player.add(new JLabel("Player: " + reversi.getCurrentPlayer().getName())) ;
     }
 }
