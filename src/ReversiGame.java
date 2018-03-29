@@ -18,7 +18,7 @@ public class ReversiGame extends JFrame{
         //players
         Object[] options = {"Oui","Non"};
         int n = JOptionPane.showOptionDialog(this,
-                "Player 1 is an IA ?",
+                "Player 1 is an AI ?",
                 "Players",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -27,7 +27,7 @@ public class ReversiGame extends JFrame{
                 options[0]);
         if(n == JOptionPane.YES_NO_OPTION){
             n = JOptionPane.showOptionDialog(this,
-                    "Player 2 is an IA ?",
+                    "Player 2 is an AI ?",
                     "Players",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
