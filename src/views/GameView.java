@@ -35,7 +35,9 @@ public class GameView extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(reversi.getStucked()){
+        if (reversi.getStucked()
+                && !reversi.getCurrentPlayer().isAi()
+                && !reversi.getOpponentPlayer().isAi()) {
             JOptionPane.showMessageDialog (
                     null,
                     reversi.getCurrentPlayer().getName() +", you are stucked ! \n\n\t "+
@@ -45,7 +47,7 @@ public class GameView extends JPanel implements Observer {
             ) ;
             reversi.stucked() ;
 
-            if(reversi.isStuckedGame()){
+            if (reversi.isStuckedGame()){
                 JOptionPane.showMessageDialog (
                         null,
                         "All players are stucked ! \n It's the end of this game !",

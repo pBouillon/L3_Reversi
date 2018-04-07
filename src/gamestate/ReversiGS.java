@@ -1,6 +1,5 @@
 package gamestate;
 
-import player.HumanPlayer;
 import player.Player;
 import reversi.GameColor;
 

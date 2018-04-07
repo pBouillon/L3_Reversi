@@ -16,7 +16,7 @@ public class ReversiGame extends JFrame{
         setSize(new Dimension(1153, 750));
 
         //players
-        Object[] options = {"Oui","Non"};
+        Object[] options = {"Yes", "No"};
         int n = JOptionPane.showOptionDialog(this,
                 "Player 1 is an AI ?",
                 "Players",
