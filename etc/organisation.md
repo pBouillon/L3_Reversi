@@ -55,3 +55,13 @@
 ## Day 4 - off
 * lhome1u
     * reworked model
+
+## Day 5
+* pBouillon
+    * reworked GUI
+    * changed images
+
+## Day 5 - off
+* pBouillon
+    * patched eval_0, eval of a final state
+    * writing eval_0_v2 
