@@ -54,7 +54,9 @@ public class ReversiGS extends GameState {
         return successors ;
     }
 
-    public void genSuccessors() {
+    public ArrayList<int[]> genSuccessors() {
+        ArrayList<int[]> possibleTiles = new ArrayList<>() ;
+
         GameColor[][] clb ;
         successors = new ArrayList<>() ;
 
@@ -75,12 +77,14 @@ public class ReversiGS extends GameState {
                         if (isMoveOk (x, y, stepX, stepY, color)) {
                             clb = getClonedBoard() ;
                             clb[x][y] = getCurrentPlayer().getColor() ;
+                            possibleTiles.add(new int[]{x, y }) ;
                             successors.add (new ReversiGS (getCurrentPlayer(), clb)) ;
                         }
                     }
                 }
             }
         }
+        return possibleTiles ;
     }
 
     public void updateCell(int x, int y, GameColor color) {

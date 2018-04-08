@@ -47,6 +47,8 @@ public class Reversi extends Observable{
     private ReversiGS currentGameState ;
     private int stucked = 0 ;
 
+    private ArrayList<int[]> possibleTiles ;
+
     public Reversi (String nameP1, String nameP2) {
         players = new Player[2] ;
         players[0] = new HumanPlayer(nameP1, GameColor.White, this) ;
@@ -91,7 +93,9 @@ public class Reversi extends Observable{
 
         // initialize first GameState
         currentGameState = new ReversiGS(getCurrentPlayer(), board) ;
-        currentGameState.genSuccessors() ;
+        possibleTiles = currentGameState.genSuccessors() ;
+
+        update() ;
     }
 
     public void play(int x, int y) {
@@ -99,7 +103,7 @@ public class Reversi extends Observable{
         stucked = 0;
 
         // changing board
-        currentGameState.updateCell (x, y, players[currentPlayerIndex].getColor());
+        currentGameState.updateCell (x, y, players[currentPlayerIndex].getColor()) ;
 
         // swap pieces
         currentGameState.swapFrom (x, y) ;
@@ -113,15 +117,11 @@ public class Reversi extends Observable{
                                 currentGameState.getClonedBoard()
                             ) ;
 
-        currentGameState.genSuccessors() ;
+        possibleTiles = currentGameState.genSuccessors() ;
 
         update() ;
 
         if (currentPlayerIsAi() && !isFinished()) {
-            System.out.println(getCurrentPlayer().getName()) ;
-            System.out.println(currentPlayerIsAi()) ;
-            System.exit(0);
-
             getCurrentPlayer().play(0, 0) ;
         }
     }
@@ -171,7 +171,7 @@ public class Reversi extends Observable{
                 currentGameState.getClonedBoard()
         ) ;
 
-        currentGameState.genSuccessors() ;
+        possibleTiles = currentGameState.genSuccessors() ;
 
         update() ;
     }
@@ -185,5 +185,9 @@ public class Reversi extends Observable{
     public void restart() {
         createFirstGameState() ;
         update() ;
+    }
+
+    public ArrayList<int[]> getPossibleTiles() {
+        return possibleTiles;
     }
 }

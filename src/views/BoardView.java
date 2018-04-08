@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -81,6 +82,15 @@ public class BoardView extends JPanel implements Observer {
                     ) ;
                     tiles[x][y].setIcon (new ImageIcon(img)) ;
                 }
+            }
+
+            img = ImageIO.read (
+                    getClass().getResource(
+                            "resources/img/possible_tile.png"
+                    )
+            ) ;
+            for (int[] p : reversi.getPossibleTiles()){
+                tiles[p[0]][p[1]].setIcon (new ImageIcon(img)) ;
             }
         } catch (IOException e) {
             e.printStackTrace() ;

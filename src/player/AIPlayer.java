@@ -43,6 +43,8 @@ public class AIPlayer extends Player {
     private static final int LOOSE = Integer.MIN_VALUE ;
     private static final int DRAW = 0 ;
 
+    private final int DEPTH = 3 ;
+
     public AIPlayer(String _name, GameColor _color, Reversi _game) {
         super(_name, _color, _game);
     }
@@ -231,7 +233,10 @@ public class AIPlayer extends Player {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        GameColor[][] board = minimax(6, getGame().getCurrentGameState()).getBoard() ;
+        GameColor[][] board = minimax (
+                DEPTH,
+                getGame().getCurrentGameState()
+        ).getBoard() ;
 
         int _x = -1 ;
         int _y = -1 ;
