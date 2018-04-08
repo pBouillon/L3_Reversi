@@ -39,13 +39,17 @@ public class BoardView extends JPanel implements Observer {
             for (int x = 0; x < tilesNb; ++x) {
                 for (int y = 0; y < tilesNb; ++y) {
                     tiles[x][y] = new JButton() ;
-                    img = ImageIO.read(getClass().getResource("resources/img/"+board[x][y]+"_tile.png"));
+                    img = ImageIO.read (
+                            getClass().getResource (
+                                    "resources/img/" + board[x][y] + "_tile.png"
+                            )
+                    ) ;
                     tiles[x][y].setIcon (new ImageIcon(img));
 
                     int X = x ;
                     int Y = y ;
                     tiles[x][y].addActionListener(e -> {
-                            if(reversi.isMoveCorrect(X,Y)) {
+                            if (reversi.isMoveCorrect(X, Y)) {
                                 reversi.getCurrentPlayer().play(X, Y);
                             }
                         }
@@ -56,7 +60,9 @@ public class BoardView extends JPanel implements Observer {
             e.printStackTrace() ;
         }
 
-        for (int x = 0; x < tilesNb * tilesNb; ++x) add (tiles[x / tilesNb][x % tilesNb]) ;
+        for (int x = 0; x < tilesNb * tilesNb; ++x) {
+            add (tiles[x / tilesNb][x % tilesNb]) ;
+        }
     }
 
      private void updateTiles() {
@@ -64,11 +70,16 @@ public class BoardView extends JPanel implements Observer {
         GameColor[][] board = reversi.getBoard() ;
 
         Image img ;
+
         try {
             for (int x = 0; x < board.length; ++x) {
                 for (int y = 0; y < board[0].length; ++y) {
-                    img = ImageIO.read(getClass().getResource("resources/img/"+board[x][y]+"_tile.png"));
-                    tiles[x][y].setIcon (new ImageIcon(img));
+                    img = ImageIO.read (
+                            getClass().getResource(
+                                    "resources/img/" + board[x][y] + "_tile.png"
+                            )
+                    ) ;
+                    tiles[x][y].setIcon (new ImageIcon(img)) ;
                 }
             }
         } catch (IOException e) {
@@ -78,7 +89,6 @@ public class BoardView extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        updateTiles();
-
+        updateTiles() ;
     }
 }

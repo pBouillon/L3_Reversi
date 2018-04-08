@@ -4,74 +4,84 @@ import views.*;
 import javax.swing.*;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class ReversiGame extends JFrame{
 
     private ReversiGame(){
-        super("Reversi");
-        Reversi reversi ;
+        super ("Reversi");
+        Reversi reversi = new Reversi() ;
 
         //initialisation
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(new Dimension(1153, 750));
+        setSize(new Dimension(1153, 750)) ;
 
-        //players
-        Object[] options = {"Oui","Non"};
-        int n = JOptionPane.showOptionDialog(this,
-                "Player 1 is an AI ?",
-                "Players",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
-        if(n == JOptionPane.YES_NO_OPTION){
-            n = JOptionPane.showOptionDialog(this,
-                    "Player 2 is an AI ?",
-                    "Players",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
-            if(n == JOptionPane.YES_NO_OPTION){
-                reversi = new Reversi() ;
-            }
-            else{
-                String retour = JOptionPane.showInputDialog(this,
-                                "Player 2, what is your name ?",
-                                "Player2");
-
-                reversi = new Reversi(retour) ;
-            }
-        }else{
-            String retour1 = JOptionPane.showInputDialog(this,
-                    "Player 1, what is your name ?",
-                    "Player1");
-
-            String retour2 = JOptionPane.showInputDialog(this,
-                    "Player 2, what is your name ?",
-                    "Player2");
-
-            reversi = new Reversi(retour1, retour2);
-
-        }
-
-        //view and menu
+        // view and menu
         add(new GameView(reversi) ,BorderLayout.CENTER) ;
         JMenuBar jmb = new JMenuBar() ;
         jmb.add(new GameMenu(reversi)) ;
         add(jmb ,BorderLayout.NORTH ) ;
 
-        //pack() ;
+        // pack() ;
         setVisible(true);
 
+        // Reversi environment
+        String[] choices = {
+                "Player vs Player",
+                "Player vs AI",
+                "AI vs AI"
+        } ;
+        String input = null ;
+        while (input == null) {
+            input = (String) JOptionPane.showInputDialog(
+                    this,
+                    "Game mode: ",
+                    "Reversi initialization",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    choices,
+                    choices[0]
+            ) ;
+        }
+
+        String p1 = null, p2 = null ;
+        switch (input) {
+            case "Player vs Player":
+                while (p1 == null) {
+                    p1 = JOptionPane.showInputDialog(
+                            this,
+                            "Player name # 1 (black)"
+                    ) ;
+                }
+
+                while (p2 == null) {
+                    p2 = JOptionPane.showInputDialog(
+                            this,
+                            "Player name # 2 (white)"
+                    );
+                    reversi = new Reversi(p1, p2);
+                }
+                break ;
+            case "Player vs AI":
+                while (p1 == null) {
+                    p1 = JOptionPane.showInputDialog(
+                            this,
+                            "Player name # 1 (black)"
+                    ) ;
+                }
+                reversi = new Reversi(p1) ;
+                break ;
+            case "AI vs AI":
+                reversi = new Reversi() ;
+                break ;
+        }
+
         if (reversi.currentPlayerIsAi()) {
-            reversi.getCurrentPlayer().play(0, 0);
+            reversi.getCurrentPlayer().play(0, 0) ;
         }
     }
 
-    public static void main(String[] a){
+    public static void main(String[] args){
         new ReversiGame() ;
     }
 }
