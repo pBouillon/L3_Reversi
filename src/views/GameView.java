@@ -14,7 +14,7 @@ public class GameView extends JPanel implements Observer {
     private static final int LOOSE = -1;
 
     private BoardView grid ;
-    private StatView stat ;
+    private StatsView stat ;
     protected Reversi reversi ;
 
     public GameView(Reversi _reversi){
@@ -26,7 +26,7 @@ public class GameView extends JPanel implements Observer {
         setLayout(new BorderLayout()) ;
         grid = new BoardView(reversi) ;
         add (grid, BorderLayout.CENTER) ;
-        stat = new StatView(reversi) ;
+        stat = new StatsView(reversi) ;
         add (stat, BorderLayout.WEST) ;
 
         // add to observable

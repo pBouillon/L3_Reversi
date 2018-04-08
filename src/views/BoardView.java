@@ -32,7 +32,6 @@ public class BoardView extends JPanel implements Observer {
         reversi.addObserver(this);
     }
 
-
     private void generateTiles(int tilesNb) {
         GameColor[][] board = reversi.getBoard() ;
         Image img ;

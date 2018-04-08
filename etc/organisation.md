@@ -1,5 +1,16 @@
-# Organisation
+# Work done
+* GUI
+    * Gameboard with tiles
+    * Infos on current player
+* Menu bar for options
+* Game modes
+    * 1 vs 1
+    * Player vs AI
+    * AI vs AI
+* AI
+    * two eval0 methods
 
+# Organisation
 ## Day 1
 * Repositiory initialization
 * Rules definitions
