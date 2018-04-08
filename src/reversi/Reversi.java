@@ -65,8 +65,8 @@ public class Reversi extends Observable{
 
     public Reversi () {
         players = new Player[2] ;
-        players[0] = new AIPlayer("AI 1", GameColor.White, this, true) ;
-        players[1] = new AIPlayer("AI 2", GameColor.Black, this, false) ;
+        players[0] = new AIPlayer("AI 1", GameColor.White, this) ;
+        players[1] = new AIPlayer("AI 2", GameColor.Black, this) ;
         createFirstGameState() ;
     }
 

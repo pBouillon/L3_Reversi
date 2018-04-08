@@ -77,3 +77,4 @@
     * patched eval_0, eval of a final state
     * writing eval_0_v2 
     * added successor's indicator
+    * finished stats view

@@ -3,6 +3,7 @@ package views;
 import reversi.Reversi;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,41 +11,50 @@ import java.util.Observer;
 public class StatsView extends JPanel implements Observer {
 
     protected Reversi reversi ;
-    private JTextField gameStat ;
-    private JLabel currentPlayer ;
+    private JTextArea gameStat ;
+
+    private final Font displayFont = new Font("Serif", Font.PLAIN, 23) ;
 
     StatsView(Reversi _reversi){
         super() ;
 
         reversi = _reversi ;
         setPreferredSize(new Dimension(1153 / 3, 50 * Reversi.SIZE_BOARD)) ;
+        setBorder(new EmptyBorder(100, 50, 10, 10));
+
         setOpaque(false) ;
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         //initialisation
-        setPlayer() ;
         setStatistics() ;
+        setText();
 
         // add to observable
         reversi.addObserver(this);
     }
 
-    private void setPlayer() {
-        currentPlayer = new JLabel("Player: " + reversi.getCurrentPlayer().getName()) ;
-
-        currentPlayer.setForeground(Color.white) ;
-
-        add (currentPlayer, BorderLayout.EAST) ;
-    }
-
     private void setStatistics() {
-        gameStat = new JTextField("Statistics : ") ;
+        gameStat = new JTextArea() ;
+        gameStat.setFont(displayFont) ;
         gameStat.setOpaque(false);
         gameStat.setForeground(Color.white) ;
-        add(gameStat, BorderLayout.SOUTH) ;
+        add(gameStat) ;
+    }
+
+    private void setText() {
+        gameStat.setText(
+                String.join ("\n",
+                        "Player: " + reversi.getCurrentPlayer().getName(),
+                        "Current color: "+ reversi.getCurrentPlayer().getColor() + "\n",
+                        "Statistics: ",
+                        "    Current  Score: " + reversi.getCurrentGameState().getCurrentPlayerScore(),
+                        "    Opponent Score: " + reversi.getCurrentGameState().getOpponentScore()
+                )
+        ) ;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        currentPlayer.setText("Player: " + reversi.getCurrentPlayer().getName()) ;
+        setText();
     }
 }

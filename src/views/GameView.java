@@ -23,10 +23,12 @@ public class GameView extends JPanel implements Observer {
         reversi = _reversi ;
 
         // views initialization
-        setLayout(new BorderLayout()) ;
         grid = new BoardView(reversi) ;
-        add (grid, BorderLayout.CENTER) ;
         stat = new StatsView(reversi) ;
+
+        setLayout(new BorderLayout()) ;
+
+        add (grid, BorderLayout.CENTER) ;
         add (stat, BorderLayout.WEST) ;
 
         // add to observable

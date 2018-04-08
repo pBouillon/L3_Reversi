@@ -44,9 +44,13 @@ public class ReversiGS extends GameState {
     private GameColor[][] board ;
     private ArrayList<ReversiGS> successors ;
 
+    int currentPlayerScore = 0 ;
+    int opponentScore = 0 ;
+
     public ReversiGS(Player _currentPlayer, GameColor[][] _board) {
         super(_currentPlayer) ;
         board = _board ;
+        checkScore() ;
     }
 
     public ArrayList<ReversiGS> getSuccessors() {
@@ -291,5 +295,24 @@ public class ReversiGS extends GameState {
 
     public boolean isStocked() {
         return isFinal() && !isFinished() ;
+    }
+
+    private void checkScore() {
+        for (GameColor[] row : getBoard()) {
+            for (GameColor tile : row) {
+                if (tile == GameColor.Empty) continue ;
+
+                if (tile == getCurrentPlayer().getColor()) ++currentPlayerScore ;
+                else ++opponentScore ;
+            }
+        }
+    }
+
+    public int getCurrentPlayerScore() {
+        return currentPlayerScore;
+    }
+
+    public int getOpponentScore() {
+        return opponentScore;
     }
 }
