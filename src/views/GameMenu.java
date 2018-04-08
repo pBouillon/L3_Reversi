@@ -39,15 +39,10 @@ public class GameMenu extends JMenu {
     }
 
     private void setItems() {
-        JMenuItem load    = genItem ("Load", "Load game") ;
         JMenuItem quit    = genItem ("Quit", "Quit game") ;
         JMenuItem restart = genItem ("Restart", "Restart a new game") ;
         JMenuItem rules   = genItem ("Rules", "Show game's rules") ;
-        JMenuItem save    = genItem ("Save", "Save this game") ;
 
-        load.addActionListener (e-> {
-            // TODO
-        }) ;
         quit.addActionListener (e->
             System.exit(0)
         ) ;
@@ -56,20 +51,14 @@ public class GameMenu extends JMenu {
         }) ;
         rules.addActionListener (e->
             JOptionPane.showMessageDialog (
-                null,
+                this,
                 rulesText,
                 "Rules",
                 JOptionPane.INFORMATION_MESSAGE
         )) ;
-        save.addActionListener (e-> {
-            // TODO
-        }) ;
 
         add(restart) ;
         add(rules)   ;
-        addSeparator() ;
-        add(save) ;
-        add(load) ;
         addSeparator() ;
         add(quit) ;
     }
