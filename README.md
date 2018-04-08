@@ -11,4 +11,4 @@ Execute the jar file or the main class `ReversiGame.java`.
 No args needed to compile.
 
 ## More
-More informations can be found on the `etc/` folder or in game in the menu bar.
+More information can be found on the `etc/` folder or in game in the menu bar.
