@@ -7,13 +7,13 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class StatView extends JPanel implements Observer {
+public class StatsView extends JPanel implements Observer {
 
     protected Reversi reversi ;
-    private JPanel player ;
     private JTextField gameStat ;
+    private JLabel currentPlayer ;
 
-    StatView(Reversi _reversi){
+    StatsView(Reversi _reversi){
         super() ;
 
         reversi = _reversi ;
@@ -29,19 +29,22 @@ public class StatView extends JPanel implements Observer {
     }
 
     private void setPlayer() {
-        player = new JPanel();
-        player.add(new JLabel("Player: " + reversi.getCurrentPlayer().getName())) ;
-        add(player, BorderLayout.EAST) ;
+        currentPlayer = new JLabel("Player: " + reversi.getCurrentPlayer().getName()) ;
+
+        currentPlayer.setForeground(Color.white) ;
+
+        add (currentPlayer, BorderLayout.EAST) ;
     }
 
     private void setStatistics() {
         gameStat = new JTextField("Statistics : ") ;
+        gameStat.setOpaque(false);
+        gameStat.setForeground(Color.white) ;
         add(gameStat, BorderLayout.SOUTH) ;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        player.removeAll();
-        player.add(new JLabel("Player: " + reversi.getCurrentPlayer().getName())) ;
+        currentPlayer.setText("Player: " + reversi.getCurrentPlayer().getName()) ;
     }
 }

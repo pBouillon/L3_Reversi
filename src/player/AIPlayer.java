@@ -43,18 +43,10 @@ public class AIPlayer extends Player {
     private static final int LOOSE = Integer.MIN_VALUE ;
     private static final int DRAW = 0 ;
 
-    private static final int DEPTH = 3 ;
-
-    private boolean eval0_v2 ;
+    private final int DEPTH = 3 ;
 
     public AIPlayer(String _name, GameColor _color, Reversi _game) {
         super(_name, _color, _game);
-        eval0_v2 = false ;
-    }
-
-    public AIPlayer(String _name, GameColor _color, Reversi _game, boolean _eval0_v2) {
-        super(_name, _color, _game);
-        eval0_v2 = _eval0_v2 ;
     }
 
     private int eval_final(ReversiGS g) {
@@ -139,7 +131,7 @@ public class AIPlayer extends Player {
 
                 if (g.getBoard()[i][j] == getColor()) {
                     // applying a penality if the move is bad
-                    if (isBadMove) currentScore -= boardSize * 2 ;
+                    if (isBadMove) currentScore -= boardSize ;
                     else {
                         currentScore += Math.abs(boardCenter - curX) ;
                         currentScore += Math.abs(boardCenter - curY) ;
@@ -147,7 +139,7 @@ public class AIPlayer extends Player {
                 }
                 else {
                     // applying a penality if the move is bad
-                    if (isBadMove) currentScore -= boardSize * 2 ;
+                    if (isBadMove) currentScore -= boardSize ;
                     else {
                         opponentScore += Math.abs(boardCenter - curX) ;
                         opponentScore += Math.abs(boardCenter - curY) ;
@@ -164,10 +156,8 @@ public class AIPlayer extends Player {
 
         if (g.isFinal()) return eval_final (g) ;
 
-        if (c == 0) {
-            if (eval0_v2) return eval_0_v2(g) ;
-            else return eval_0 (g) ;
-        }
+//        if (c == 0) return eval_0(g) ;
+        if (c == 0) return eval_0_v2(g) ;
 
         if (g.getCurrentPlayer().equals(this)){
             scoreMax = WON ;
@@ -189,10 +179,8 @@ public class AIPlayer extends Player {
 
         if (e.isFinal()) return eval_final (e) ;
 
-        if (c == 0) {
-            if (eval0_v2) return eval_0_v2(e) ;
-            else return eval_0 (e) ;
-        }
+//        if (c == 0) return eval_0 (e) ;
+        if (c == 0) return eval_0_v2 (e) ;
 
         // our turn
         if (e.getCurrentPlayer() == this) {
@@ -241,11 +229,14 @@ public class AIPlayer extends Player {
     @Override
     public void play(int x, int y) {
         try {
-            TimeUnit.MILLISECONDS.sleep(150 );
+            TimeUnit.MILLISECONDS.sleep(250 );
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        GameColor[][] board = minimax(DEPTH, getGame().getCurrentGameState()).getBoard() ;
+        GameColor[][] board = minimax (
+                DEPTH,
+                getGame().getCurrentGameState()
+        ).getBoard() ;
 
         int _x = -1 ;
         int _y = -1 ;

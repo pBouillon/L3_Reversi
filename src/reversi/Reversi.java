@@ -29,6 +29,7 @@ import player.AIPlayer;
 import player.HumanPlayer;
 import player.Player;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 /**
@@ -44,7 +45,9 @@ public class Reversi extends Observable{
     private Player[] players ;
     private int currentPlayerIndex ;
     private ReversiGS currentGameState ;
-    private int stucked = 0;
+    private int stucked = 0 ;
+
+    private ArrayList<int[]> possibleTiles ;
 
     public Reversi (String nameP1, String nameP2) {
         players = new Player[2] ;
@@ -72,7 +75,6 @@ public class Reversi extends Observable{
     }
 
     private void createFirstGameState(){
-
         GameColor[][] board = new GameColor[SIZE_BOARD][SIZE_BOARD] ;
 
         for (int x = 0; x < SIZE_BOARD * SIZE_BOARD ; ++x) {
@@ -91,15 +93,17 @@ public class Reversi extends Observable{
 
         // initialize first GameState
         currentGameState = new ReversiGS(getCurrentPlayer(), board) ;
-        currentGameState.genSuccessors() ;
+        possibleTiles = currentGameState.genSuccessors() ;
+
+        update() ;
     }
 
     public void play(int x, int y) {
-        //reboot stucked payer
+        // reboot stucked payer
         stucked = 0;
 
         // changing board
-        currentGameState.updateCell(x, y, players[currentPlayerIndex].getColor());
+        currentGameState.updateCell (x, y, players[currentPlayerIndex].getColor()) ;
 
         // swap pieces
         currentGameState.swapFrom (x, y) ;
@@ -113,12 +117,12 @@ public class Reversi extends Observable{
                                 currentGameState.getClonedBoard()
                             ) ;
 
-        currentGameState.genSuccessors() ;
+        possibleTiles = currentGameState.genSuccessors() ;
 
         update() ;
 
-        if (currentPlayerIsAi() && ! isFinished()) {
-            getCurrentPlayer().play(0, 0);
+        if (currentPlayerIsAi() && !isFinished()) {
+            getCurrentPlayer().play(0, 0) ;
         }
     }
 
@@ -129,10 +133,10 @@ public class Reversi extends Observable{
 
     public Player getCurrentPlayer(){ return players[currentPlayerIndex] ;}
 
-    public void update(){
-        setChanged();
-        notifyObservers();
-        clearChanged();
+    private void update() {
+        setChanged() ;
+        notifyObservers() ;
+        clearChanged() ;
     }
 
     public GameColor[][] getBoard() {
@@ -140,7 +144,7 @@ public class Reversi extends Observable{
     }
 
     public boolean isMoveCorrect(int x, int y) {
-        return currentGameState.moveAllowed(x, y) ;
+        return currentGameState.moveAllowed (x, y) ;
     }
 
     public boolean isFinished() { return currentGameState.isFinished() ;}
@@ -156,7 +160,8 @@ public class Reversi extends Observable{
     public boolean getStucked() { return currentGameState.isStocked() ;}
 
     public void stucked() {
-        ++stucked;
+        ++stucked ;
+
         //change player
         nextPlayer() ;
 
@@ -166,7 +171,7 @@ public class Reversi extends Observable{
                 currentGameState.getClonedBoard()
         ) ;
 
-        currentGameState.genSuccessors() ;
+        possibleTiles = currentGameState.genSuccessors() ;
 
         update() ;
     }
@@ -174,11 +179,15 @@ public class Reversi extends Observable{
     public boolean isStuckedGame() { return stucked == 2 ; }
 
     public boolean currentPlayerIsAi() {
-        return getCurrentPlayer().isAi();
+        return getCurrentPlayer().isAi() ;
     }
 
     public void restart() {
         createFirstGameState() ;
         update() ;
+    }
+
+    public ArrayList<int[]> getPossibleTiles() {
+        return possibleTiles;
     }
 }
