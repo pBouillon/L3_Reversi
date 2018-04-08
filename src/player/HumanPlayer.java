@@ -45,6 +45,6 @@ public class HumanPlayer extends Player {
 
     @Override
     public boolean isAi() {
-        return false;
+        return false ;
     }
 }

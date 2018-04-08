@@ -99,7 +99,7 @@ public class Reversi extends Observable{
         stucked = 0;
 
         // changing board
-        currentGameState.updateCell(x, y, players[currentPlayerIndex].getColor());
+        currentGameState.updateCell (x, y, players[currentPlayerIndex].getColor());
 
         // swap pieces
         currentGameState.swapFrom (x, y) ;
@@ -117,8 +117,12 @@ public class Reversi extends Observable{
 
         update() ;
 
-        if (currentPlayerIsAi() && ! isFinished()) {
-            getCurrentPlayer().play(0, 0);
+        if (currentPlayerIsAi() && !isFinished()) {
+            System.out.println(getCurrentPlayer().getName()) ;
+            System.out.println(currentPlayerIsAi()) ;
+            System.exit(0);
+
+            getCurrentPlayer().play(0, 0) ;
         }
     }
 
@@ -157,6 +161,7 @@ public class Reversi extends Observable{
 
     public void stucked() {
         ++stucked ;
+
         //change player
         nextPlayer() ;
 

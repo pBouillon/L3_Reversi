@@ -75,7 +75,7 @@ public class ReversiGS extends GameState {
                         if (isMoveOk (x, y, stepX, stepY, color)) {
                             clb = getClonedBoard() ;
                             clb[x][y] = getCurrentPlayer().getColor() ;
-                            successors.add (new ReversiGS(getCurrentPlayer(), clb)) ;
+                            successors.add (new ReversiGS (getCurrentPlayer(), clb)) ;
                         }
                     }
                 }
@@ -104,9 +104,7 @@ public class ReversiGS extends GameState {
     public GameColor[][] getClonedBoard() {
         GameColor[][] clone = new GameColor[board.length][board.length] ;
         for (int x = 0; x < clone.length; ++x) {
-            for (int y = 0; y < clone.length; ++y) {
-                clone[x][y] = board[x][y] ;
-            }
+            System.arraycopy(board[x], 0, clone[x], 0, clone.length);
         }
         return clone ;
     }
@@ -127,7 +125,6 @@ public class ReversiGS extends GameState {
     }
 
     private void swap(int x, int y, int stepX, int stepY, GameColor color, int toSwap) {
-
         // starting from the next cell
         x += stepX ; y += stepY ;
 
@@ -273,12 +270,11 @@ public class ReversiGS extends GameState {
         // loose = -1
         if (currentScore == opponentScore) return 0 ;
 
-        return (currentScore > opponentScore) ? 1
-                : -1 ;
+        return (currentScore > opponentScore) ? 1 : -1 ;
     }
 
     public boolean isFinished() {
-        if(isFinal()){
+        if (isFinal()){
             for (GameColor[] row : getBoard()) {
                 for (GameColor tile : row) {
                     if (tile == GameColor.Empty) return false ;
@@ -290,9 +286,6 @@ public class ReversiGS extends GameState {
     }
 
     public boolean isStocked() {
-        if(isFinal() && !isFinished()){
-            return true ;
-        }
-        return false ;
+        return isFinal() && !isFinished() ;
     }
 }

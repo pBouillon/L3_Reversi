@@ -6,24 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
-public class ReversiGame extends JFrame{
+public class ReversiGame extends JFrame {
 
-    private ReversiGame(){
-        super ("Reversi");
-        Reversi reversi = new Reversi() ;
+    private ReversiGame() {
+        super ("Reversi") ;
 
-        //initialisation
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(new Dimension(1153, 750)) ;
-
-        // view and menu
-        add(new GameView(reversi) ,BorderLayout.CENTER) ;
-        JMenuBar jmb = new JMenuBar() ;
-        jmb.add(new GameMenu(reversi)) ;
-        add(jmb ,BorderLayout.NORTH ) ;
-
-        // pack() ;
-        setVisible(true);
+        Reversi reversi ;
 
         // Reversi environment
         String[] choices = {
@@ -45,25 +33,27 @@ public class ReversiGame extends JFrame{
         }
 
         String p1 = null, p2 = null ;
+        reversi = new Reversi() ;
+
         switch (input) {
             case "Player vs Player":
-                while (p1 == null) {
+                while (p1 == null || p1.length() < 1) {
                     p1 = JOptionPane.showInputDialog(
                             this,
                             "Player name # 1 (black)"
                     ) ;
                 }
 
-                while (p2 == null) {
+                while (p2 == null || p2.length() < 1) {
                     p2 = JOptionPane.showInputDialog(
                             this,
                             "Player name # 2 (white)"
                     );
-                    reversi = new Reversi(p1, p2);
+                    reversi = new Reversi(p1, p2) ;
                 }
                 break ;
             case "Player vs AI":
-                while (p1 == null) {
+                while (p1 == null || p1.length() < 1) {
                     p1 = JOptionPane.showInputDialog(
                             this,
                             "Player name # 1 (black)"
@@ -71,10 +61,28 @@ public class ReversiGame extends JFrame{
                 }
                 reversi = new Reversi(p1) ;
                 break ;
-            case "AI vs AI":
-                reversi = new Reversi() ;
-                break ;
         }
+
+        // initialization
+        setSize(new Dimension(1153, 750)) ;
+
+        // components
+        JMenuBar jmb = new JMenuBar()  ;
+        jmb.add (new GameMenu(reversi)) ;
+
+        add (
+                new GameView(reversi),
+                BorderLayout.CENTER
+        ) ;
+        add (
+                jmb,
+                BorderLayout.NORTH
+        ) ;
+
+
+        setLocationRelativeTo(null) ;
+        setVisible(true) ;
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE) ;
 
         if (reversi.currentPlayerIsAi()) {
             reversi.getCurrentPlayer().play(0, 0) ;

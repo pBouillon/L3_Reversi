@@ -50,7 +50,7 @@ public class BoardView extends JPanel implements Observer {
                     int Y = y ;
                     tiles[x][y].addActionListener(e -> {
                             if (reversi.isMoveCorrect(X, Y)) {
-                                reversi.getCurrentPlayer().play(X, Y);
+                                reversi.getCurrentPlayer().play (X, Y) ;
                             }
                         }
                     ) ;

@@ -13,8 +13,8 @@ public class GameView extends JPanel implements Observer {
     private static final int EQUALS = 0;
     private static final int LOOSE = -1;
 
-    protected BoardView grid ;
-    protected StatView stat ;
+    private BoardView grid ;
+    private StatView stat ;
     protected Reversi reversi ;
 
     public GameView(Reversi _reversi){
@@ -35,17 +35,17 @@ public class GameView extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(reversi.getStucked()){
+        if (reversi.getStucked() && !reversi.getCurrentPlayer().isAi()) {
             JOptionPane.showMessageDialog (
                     null,
-                    reversi.getCurrentPlayer().getName() +", you are stucked ! \n\n\t "+
-                            reversi.getOpponentPlayer().getName()+", it's your turn ! ",
+                    reversi.getCurrentPlayer().getName() + ", you are stucked ! \n\n\t "+
+                            reversi.getOpponentPlayer().getName() + ", it's your turn ! ",
                     "OUUUUPS !",
                     JOptionPane.PLAIN_MESSAGE
             ) ;
             reversi.stucked() ;
 
-            if(reversi.isStuckedGame()){
+            if (reversi.isStuckedGame()){
                 JOptionPane.showMessageDialog (
                         null,
                         "All players are stucked ! \n It's the end of this game !",
