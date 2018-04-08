@@ -47,4 +47,7 @@ public class HumanPlayer extends Player {
     public boolean isAi() {
         return false ;
     }
+
+    @Override
+    public void changeDepth(int depth) {}
 }

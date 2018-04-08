@@ -1,6 +1,5 @@
 package views;
 
-import jdk.nashorn.internal.scripts.JO;
 import reversi.Reversi;
 
 import javax.swing.*;
@@ -47,10 +46,42 @@ public class GameMenu extends JMenu {
         JMenuItem restart = genItem ("Restart", "Restart a new game") ;
         JMenuItem rules   = genItem ("Rules", "Show game's rules") ;
         JMenuItem more   = genItem  ("More", "Get on the public repository") ;
+        JMenuItem ai   = genItem    ("AI depth", "Change the AI difficlty") ;
 
         quit.addActionListener (e-> System.exit(0)
         ) ;
-        restart.addActionListener (e-> reversi.restart()) ;
+        restart.addActionListener (e-> {
+            // Board size
+            String size = JOptionPane.showInputDialog (
+                    this,
+                    "Board size (even number between 4 and 16): ",
+                    "Reversi initialization",
+                    JOptionPane.QUESTION_MESSAGE
+            ) ;
+
+            int board = 0 ;
+            try {
+                board = Integer.parseInt(size) ;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog (
+                        mainFrame,
+                        "Reversi initialization",
+                        "Bad input, grid size is invalid",
+                        JOptionPane.ERROR_MESSAGE
+                ) ;
+                System.exit(1);
+            }
+            if (board % 2 != 0 || board < 4 || board > 16) {
+                JOptionPane.showMessageDialog (
+                        mainFrame,
+                        "Reversi initialization",
+                        "Bad input, grid size is invalid",
+                        JOptionPane.ERROR_MESSAGE
+                ) ;
+                System.exit(1);
+            }
+            reversi.restart(board) ;
+        }) ;
         rules.addActionListener (e->
             JOptionPane.showMessageDialog (
                 mainFrame,
@@ -85,8 +116,40 @@ public class GameMenu extends JMenu {
             }
         }) ;
 
+        ai.addActionListener(e -> {
+            String size = JOptionPane.showInputDialog (
+                    this,
+                    "New AI depth > 0 (higher number will slow down the game): ",
+                    "New AI depth",
+                    JOptionPane.QUESTION_MESSAGE
+            ) ;
+
+            int depth = 0 ;
+            try {
+                depth = Integer.parseInt(size) ;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog (
+                        mainFrame,
+                        "Bad depth, aborting",
+                        "New AI depth",
+                        JOptionPane.ERROR_MESSAGE
+                ) ;
+            }
+            if (depth < 0 || depth > 10) {
+                JOptionPane.showMessageDialog (
+                        mainFrame,
+                        "Bad depth, aborting",
+                        "New AI depth",
+                        JOptionPane.ERROR_MESSAGE
+                ) ;
+            }
+            reversi.changeAIDepth(depth) ;
+        });
+
         add(restart) ;
         add(rules) ;
+        addSeparator() ;
+        add(ai) ;
         addSeparator() ;
         add(more) ;
         addSeparator() ;

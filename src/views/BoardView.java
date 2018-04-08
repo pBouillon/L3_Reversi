@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,12 +20,12 @@ public class BoardView extends JPanel implements Observer {
         super() ;
         reversi = _reversi ;
 
-        setLayout (new GridLayout (Reversi.SIZE_BOARD, Reversi.SIZE_BOARD)) ;
+        setLayout (new GridLayout (reversi.getBoardSize(), reversi.getBoardSize())) ;
         setOpaque(false) ;
 
         // grid initialisation
-        tiles = new JButton[Reversi.SIZE_BOARD][Reversi.SIZE_BOARD] ;
-        generateTiles(Reversi.SIZE_BOARD);
+        tiles = new JButton[reversi.getBoardSize()][reversi.getBoardSize()] ;
+        generateTiles(reversi.getBoardSize());
 
         // add to observable
         reversi.addObserver(this);

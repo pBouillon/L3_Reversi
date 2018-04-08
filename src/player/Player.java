@@ -66,4 +66,6 @@ public abstract class Player {
     }
 
     public abstract boolean isAi() ;
+
+    public abstract void changeDepth(int depth);
 }

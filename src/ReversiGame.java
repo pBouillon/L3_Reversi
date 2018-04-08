@@ -19,9 +19,7 @@ public class ReversiGame extends JFrame {
                 "Player vs AI",
                 "AI vs AI"
         } ;
-        String input = null ;
-        while (input == null) {
-            input = (String) JOptionPane.showInputDialog(
+        String input = (String) JOptionPane.showInputDialog(
                     this,
                     "Game mode: ",
                     "Reversi initialization",
@@ -29,11 +27,41 @@ public class ReversiGame extends JFrame {
                     null,
                     choices,
                     choices[0]
+        ) ;
+        if (input == null) System.exit(0) ;
+
+        // Board size
+        String size = JOptionPane.showInputDialog (
+                this,
+                "Board size (even number between 4 and 16): ",
+                "Reversi initialization",
+                JOptionPane.QUESTION_MESSAGE
+        ) ;
+
+        int board = 0 ;
+        try {
+            board = Integer.parseInt(size) ;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Bad input, grid size is invalid",
+                    "Reversi initialization",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            System.exit(1);
+        }
+        if (board % 2 != 0 || board < 4 || board > 16) {
+            JOptionPane.showMessageDialog (
+                    this,
+                    "Bad input, grid size is invalid",
+                    "Reversi initialization",
+                    JOptionPane.ERROR_MESSAGE
             ) ;
+            System.exit(1);
         }
 
         String p1 = null, p2 = null ;
-        reversi = new Reversi() ;
+        reversi = new Reversi(board) ;
 
         switch (input) {
             case "Player vs Player":
@@ -49,7 +77,7 @@ public class ReversiGame extends JFrame {
                             this,
                             "Player name # 2 (white)"
                     );
-                    reversi = new Reversi(p1, p2) ;
+                    reversi = new Reversi(board, p1, p2) ;
                 }
                 break ;
             case "Player vs AI":
@@ -59,12 +87,13 @@ public class ReversiGame extends JFrame {
                             "Player name # 1 (black)"
                     ) ;
                 }
-                reversi = new Reversi(p1) ;
+                reversi = new Reversi(board, p1) ;
                 break ;
         }
 
         // initialization
-        setSize(new Dimension(1153, 750)) ;
+        setSize(new Dimension(1150, 750)) ;
+        setResizable(false);
 
         // components
         JMenuBar jmb = new JMenuBar()  ;

@@ -43,7 +43,7 @@ public class AIPlayer extends Player {
     private static final int LOOSE = Integer.MIN_VALUE ;
     private static final int DRAW = 0 ;
 
-    private final int DEPTH = 3 ;
+    private int depth = 3 ;
 
     public AIPlayer(String _name, GameColor _color, Reversi _game) {
         super(_name, _color, _game);
@@ -91,11 +91,39 @@ public class AIPlayer extends Player {
         int boardSize  = g.getBoard().length ;
         int boardCenter = boardSize / 2 ;
 
+        boolean corner ;
+        boolean border ;
+
         int curX, curY ;
         for (int i = 0; i < boardSize; ++i) {
             for (int j = 0; j < boardSize; ++j) {
                 if (g.getBoard()[i][j] == GameColor.Empty) continue ;
 
+                // check if this is a corner
+                corner = // top left corner
+                        i == 0 && j == 0
+                        || // bottom left corner
+                        i == boardSize - 1 && j == 0
+                        || // top right corner
+                        i == 0 && j == boardSize - 1
+                        || // bottom right corner
+                        i == boardSize - 1 && j == boardSize - 1 ;
+                if (corner) {
+                    if (g.getBoard()[i][j] == getColor()) currentScore += boardSize * 2 ;
+                    else opponentScore += boardSize * 2 ;
+                    continue ;
+                }
+
+                // check if this is a border
+                border = i == 0 && j > 1 && j < boardSize - 2
+                        || j == 0 && i > 0 && i < boardSize - 2 ;
+                if (border) {
+                    if (g.getBoard()[i][j] == getColor()) currentScore += boardSize ;
+                    else opponentScore += boardSize ;
+                    continue ;
+                }
+
+                // else
                 curX = i % boardSize / 2 ;
                 curY = j % boardSize / 2 ;
 
@@ -131,7 +159,7 @@ public class AIPlayer extends Player {
 
                 if (g.getBoard()[i][j] == getColor()) {
                     // applying a penality if the move is bad
-                    if (isBadMove) currentScore -= boardSize ;
+                    if (isBadMove) currentScore += LOOSE ;
                     else {
                         currentScore += Math.abs(boardCenter - curX) ;
                         currentScore += Math.abs(boardCenter - curY) ;
@@ -139,7 +167,7 @@ public class AIPlayer extends Player {
                 }
                 else {
                     // applying a penality if the move is bad
-                    if (isBadMove) currentScore -= boardSize ;
+                    if (isBadMove) currentScore += LOOSE ;
                     else {
                         opponentScore += Math.abs(boardCenter - curX) ;
                         opponentScore += Math.abs(boardCenter - curY) ;
@@ -147,7 +175,6 @@ public class AIPlayer extends Player {
                 }
             }
         }
-
         return (currentScore - opponentScore) ;
     }
 
@@ -229,12 +256,12 @@ public class AIPlayer extends Player {
     @Override
     public void play(int x, int y) {
         try {
-            TimeUnit.MILLISECONDS.sleep(250 );
+            TimeUnit.MILLISECONDS.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         GameColor[][] board = minimax (
-                DEPTH,
+                depth,
                 getGame().getCurrentGameState()
         ).getBoard() ;
 
@@ -254,5 +281,10 @@ public class AIPlayer extends Player {
     @Override
     public boolean isAi() {
         return true ;
+    }
+
+    @Override
+    public void changeDepth(int _depth) {
+        depth = _depth ;
     }
 }

@@ -1,5 +1,6 @@
 package views;
 
+import reversi.GameColor;
 import reversi.Reversi;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class StatsView extends JPanel implements Observer {
         super() ;
 
         reversi = _reversi ;
-        setPreferredSize(new Dimension(1153 / 3, 50 * Reversi.SIZE_BOARD)) ;
+        setPreferredSize(new Dimension(1153 / 3, 50 * reversi.getBoardSize())) ;
         setBorder(new EmptyBorder(100, 50, 10, 10));
 
         setOpaque(false) ;
@@ -42,13 +43,22 @@ public class StatsView extends JPanel implements Observer {
     }
 
     private void setText() {
+        int whiteScore, blackScore ;
+        if (reversi.getCurrentPlayer().getColor() == GameColor.White) {
+            whiteScore = reversi.getCurrentGameState().getCurrentPlayerScore() ;
+            blackScore = reversi.getCurrentGameState().getOpponentScore() ;
+        } else {
+            blackScore = reversi.getCurrentGameState().getCurrentPlayerScore() ;
+            whiteScore = reversi.getCurrentGameState().getOpponentScore() ;
+        }
         gameStat.setText(
                 String.join ("\n",
-                        "Player: " + reversi.getCurrentPlayer().getName(),
-                        "Current color: "+ reversi.getCurrentPlayer().getColor() + "\n",
+                        "Overall:",
+                        "    Player: " + reversi.getCurrentPlayer().getName(),
+                        "    Current color: "+ reversi.getCurrentPlayer().getColor() + "\n",
                         "Statistics: ",
-                        "    Current  Score: " + reversi.getCurrentGameState().getCurrentPlayerScore(),
-                        "    Opponent Score: " + reversi.getCurrentGameState().getOpponentScore()
+                        "    Black: " + blackScore,
+                        "    White: " + whiteScore
                 )
         ) ;
     }

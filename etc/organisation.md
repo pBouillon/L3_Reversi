@@ -97,3 +97,5 @@ level of difficulties when playing against an AI.
     * writing eval_0_v2 
     * added successor's indicator
     * finished stats view
+    * depth change for AI search
+    * grid size change

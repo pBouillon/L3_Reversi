@@ -40,7 +40,7 @@ import java.util.Observable;
  */
 public class Reversi extends Observable{
 
-    public static final int SIZE_BOARD = 8;
+    private int boardSize ;
 
     private Player[] players ;
     private int currentPlayerIndex ;
@@ -49,21 +49,24 @@ public class Reversi extends Observable{
 
     private ArrayList<int[]> possibleTiles ;
 
-    public Reversi (String nameP1, String nameP2) {
+    public Reversi (int size, String nameP1, String nameP2) {
+        boardSize = size ;
         players = new Player[2] ;
         players[0] = new HumanPlayer(nameP1, GameColor.White, this) ;
         players[1] = new HumanPlayer(nameP2, GameColor.Black, this) ;
         createFirstGameState() ;
     }
 
-    public Reversi (String nameP1) {
+    public Reversi (int size, String nameP1) {
+        boardSize = size ;
         players = new Player[2] ;
         players[0] = new AIPlayer("AI", GameColor.White, this) ;
         players[1] = new HumanPlayer(nameP1, GameColor.Black, this) ;
         createFirstGameState() ;
     }
 
-    public Reversi () {
+    public Reversi (int size) {
+        boardSize = size ;
         players = new Player[2] ;
         players[0] = new AIPlayer("AI 1", GameColor.White, this) ;
         players[1] = new AIPlayer("AI 2", GameColor.Black, this) ;
@@ -75,14 +78,14 @@ public class Reversi extends Observable{
     }
 
     private void createFirstGameState(){
-        GameColor[][] board = new GameColor[SIZE_BOARD][SIZE_BOARD] ;
+        GameColor[][] board = new GameColor[boardSize][boardSize] ;
 
-        for (int x = 0; x < SIZE_BOARD * SIZE_BOARD ; ++x) {
-            board[x / SIZE_BOARD][x % SIZE_BOARD] = GameColor.Empty ;
+        for (int x = 0; x < boardSize * boardSize; ++x) {
+            board[x / boardSize][x % boardSize] = GameColor.Empty ;
         }
 
         // initialize the grid with the central pattern
-        int center = SIZE_BOARD / 2 ;
+        int center = boardSize / 2 ;
         board[center-1][ center ] = GameColor.Black ;
         board[ center ][center-1] = GameColor.Black ;
         board[center-1][center-1] = GameColor.White ;
@@ -182,12 +185,22 @@ public class Reversi extends Observable{
         return getCurrentPlayer().isAi() ;
     }
 
-    public void restart() {
+    public void restart(int board) {
+        boardSize = board ;
         createFirstGameState() ;
         update() ;
     }
 
     public ArrayList<int[]> getPossibleTiles() {
         return possibleTiles;
+    }
+
+    public int getBoardSize() {
+        return boardSize ;
+    }
+
+    public void changeAIDepth(int depth) {
+        if (players[0].isAi()) players[0].changeDepth(depth) ;
+        if (players[1].isAi()) players[1].changeDepth(depth) ;
     }
 }
