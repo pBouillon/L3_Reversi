@@ -9,6 +9,24 @@
     * AI vs AI
 * AI
     * two eval0 methods
+    
+# Implementation difficulties
+* Once AI was implemented, make it play as another human player
+was hard: too fast, not the same way to choose its move, etc.. we had
+to rework the whole project to make it work.
+
+* Successors was complicated to generate too: they were many cases to handle 
+(each row, each cell, each direction). We had to check whether a successor was
+already defined or not, regenerate them after each game state change, etc. and 
+everything while respecting the game's rules.
+
+
+# Evolutions
+* Evolutive AI was something we didn't successfully implemented,
+rework this part could be a good evolution.
+
+* More eval0 functions to allow the user to chose between several
+level of difficulties when playing against an AI.
 
 # Organisation
 ## Day 1
@@ -66,6 +84,7 @@
 ## Day 4 - off
 * lhome1u
     * reworked model
+    * reworked view (switched to MVC)
 
 ## Day 5
 * pBouillon
