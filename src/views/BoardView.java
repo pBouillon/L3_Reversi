@@ -57,6 +57,15 @@ public class BoardView extends JPanel implements Observer {
                     ) ;
                 }
             }
+
+            img = ImageIO.read (
+                    getClass().getResource(
+                            "resources/img/possible_tile.png"
+                    )
+            ) ;
+            for (int[] p : reversi.getPossibleTiles()){
+                tiles[p[0]][p[1]].setIcon (new ImageIcon(img)) ;
+            }
         } catch (IOException e) {
             e.printStackTrace() ;
         }
