@@ -1,9 +1,11 @@
 package views;
 
+import jdk.nashorn.internal.scripts.JO;
 import reversi.Reversi;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class GameMenu extends JMenu {
 
@@ -31,10 +33,12 @@ public class GameMenu extends JMenu {
             "\t * The winner is the player who has the more pieces of his color \n";
 
     private Reversi reversi ;
+    private GameView mainFrame ;
 
-    public GameMenu(Reversi _reversi){
+    public GameMenu(Reversi _reversi, GameView gv){
         super("Game") ;
         reversi = _reversi ;
+        mainFrame = gv ;
         setItems() ;
     }
 
@@ -42,23 +46,49 @@ public class GameMenu extends JMenu {
         JMenuItem quit    = genItem ("Quit", "Quit game") ;
         JMenuItem restart = genItem ("Restart", "Restart a new game") ;
         JMenuItem rules   = genItem ("Rules", "Show game's rules") ;
+        JMenuItem more   = genItem  ("More", "Get on the public repository") ;
 
-        quit.addActionListener (e->
-            System.exit(0)
+        quit.addActionListener (e-> System.exit(0)
         ) ;
-        restart.addActionListener (e-> {
-            reversi.restart() ;
-        }) ;
+        restart.addActionListener (e-> reversi.restart()) ;
         rules.addActionListener (e->
             JOptionPane.showMessageDialog (
-                this,
+                mainFrame,
                 rulesText,
                 "Rules",
                 JOptionPane.INFORMATION_MESSAGE
         )) ;
+        more.addActionListener(e -> {
+            Object[] answers = new Object[]{"Yes get me to the repository", "No thanks"} ;
+            int res = JOptionPane.showOptionDialog (
+                    mainFrame,
+                    "You are about to open an external link, proceed anyway?",
+                    "Warning",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    answers,
+                    answers[0]
+            ) ;
+
+            if (res == JOptionPane.YES_OPTION) {
+                try {
+                    Desktop.getDesktop()
+                            .browse (
+                                    new URL (
+                                            "https://github.com/pBouillon/L3_Reversi")
+                                            .toURI()
+                            ) ;
+                } catch (Exception ex) {
+                    ex.printStackTrace() ;
+                }
+            }
+        }) ;
 
         add(restart) ;
-        add(rules)   ;
+        add(rules) ;
+        addSeparator() ;
+        add(more) ;
         addSeparator() ;
         add(quit) ;
     }

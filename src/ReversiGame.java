@@ -68,12 +68,13 @@ public class ReversiGame extends JFrame {
 
         // components
         JMenuBar jmb = new JMenuBar()  ;
-        jmb.add (new GameMenu(reversi)) ;
+        GameView gv = new GameView(reversi) ;
 
         add (
-                new GameView(reversi),
+                gv,
                 BorderLayout.CENTER
         ) ;
+        jmb.add (new GameMenu(reversi, gv)) ;
         add (
                 jmb,
                 BorderLayout.NORTH
